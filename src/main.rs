@@ -1,5 +1,5 @@
 use log::{error, info, warn};
-use std::path::PathBuf;
+use std::{collections::HashSet, path::PathBuf};
 
 use clap::Parser;
 
@@ -43,11 +43,17 @@ fn run(args: Args) -> Result<(), errors::Error> {
         )
         .with_transform("trim", template::transform(|s| s.trim().to_owned()));
 
+    let mut written_files = HashSet::new();
+
     for entry in walkdir::WalkDir::new(&config.source)
         .into_iter()
         .filter_map(|entry| entry.ok())
         .filter(|entry| entry.file_type().is_file())
     {
+        if written_files.contains(entry.path()) {
+            continue;
+        }
+
         match image::render(&template, entry.path()) {
             Some(Ok(target)) => {
                 let mut target = config.target.join(target);
@@ -68,8 +74,9 @@ fn run(args: Args) -> Result<(), errors::Error> {
                         "Make sure that you've got permission to create this directory and try again.",
                         e))?;
 
-                    conflict_manager::rename_no_conflict(entry.path(), &target).map_err(|e| {
-                        errors::user_with_internal(
+                    let written_path = conflict_manager::rename_no_conflict(entry.path(), &target)
+                        .map_err(|e| {
+                            errors::user_with_internal(
                             &format!(
                                 "Failed to move '{}' to '{}'",
                                 entry.path().display(),
@@ -78,7 +85,9 @@ fn run(args: Args) -> Result<(), errors::Error> {
                             "Make sure that you have permission to move the image and try again.",
                             e,
                         )
-                    })?;
+                        })?;
+
+                    written_files.insert(written_path);
                 }
             }
             Some(Err(e)) => warn!("Error: {}", e),
