@@ -50,6 +50,15 @@ fn run(args: Args) -> Result<(), errors::Error> {
         .filter_map(|entry| entry.ok())
         .filter(|entry| entry.file_type().is_file())
     {
+        if config.synology
+            && entry
+                .path()
+                .components()
+                .any(|p| p.as_os_str().to_string_lossy() == "@eaDir")
+        {
+            continue;
+        }
+
         if written_files.contains(entry.path()) {
             continue;
         }
@@ -65,8 +74,6 @@ fn run(args: Args) -> Result<(), errors::Error> {
                 if target == entry.path() {
                     continue;
                 }
-
-                info!("mv '{}' '{}'", entry.path().display(), target.display());
 
                 if !args.audit {
                     std::fs::create_dir_all(target.parent().unwrap()).map_err(|e| errors::user_with_internal(
@@ -87,7 +94,14 @@ fn run(args: Args) -> Result<(), errors::Error> {
                         )
                         })?;
 
+                    info!(
+                        "mv '{}' '{}'",
+                        entry.path().display(),
+                        written_path.display()
+                    );
                     written_files.insert(written_path);
+                } else {
+                    info!("mv '{}' '{}'", entry.path().display(), target.display());
                 }
             }
             Some(Err(e)) => warn!("Error: {}", e),

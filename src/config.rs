@@ -2,7 +2,6 @@ use std::path::{Path, PathBuf};
 
 use serde::Deserialize;
 
-
 #[derive(Deserialize, Debug)]
 pub struct Config {
     /// The directory from which new images will be sourced for import.
@@ -13,6 +12,9 @@ pub struct Config {
 
     /// The format used to name files when they are imported.
     pub template: String,
+
+    /// If set to true, the program will ignore the Synology index files which are created on Synology NAS devices.
+    pub synology: bool,
 }
 
 impl Default for Config {
@@ -21,17 +23,20 @@ impl Default for Config {
             source: PathBuf::from("ingestion"),
             target: PathBuf::from("photos"),
             template: "{year}/{date_time}-{name}".to_string(),
+            synology: false,
         }
     }
 }
 
 impl Config {
     pub fn load<S: AsRef<Path>>(source: S) -> Result<Config, crate::errors::Error> {
-        let content = std::fs::read_to_string(source).map_err(|e|
+        let content = std::fs::read_to_string(source).map_err(|e| {
             crate::errors::user_with_internal(
                 "Failed to read your configuration file.",
                 "Make sure that the file exists and you have permission to access it.",
-                e))?;
+                e,
+            )
+        })?;
 
         toml::from_str(&content)
             .map_err(|e| crate::errors::user_with_internal(

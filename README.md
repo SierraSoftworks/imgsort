@@ -23,6 +23,7 @@ imgsort -c config.yaml
 source = "/Volumes/photo/Import"
 target = "/Volumes/photo"
 template = "{year}/{date}T{time}-{camera.model}"
+synology = true # Set to true if you are running on a Synology NAS
 ```
 
 ## Template Variables
