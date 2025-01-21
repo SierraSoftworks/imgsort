@@ -1,0 +1,22 @@
+[package]
+name = "imgsort"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4.5.9", features = ["derive"] }
+sha2 = "0.10"
+human-errors = "0.1.3"
+rawler = "0.6.0"
+rexif = "0.7.4"
+serde = { version = "1.0.204", features = ["derive", "alloc"] }
+toml = "0.8.15"
+walkdir = "2.5.0"
+base16ct = { version = "0.2.0", features = ["alloc"] }
+deunicode = "1.6.0"
+colog = "1.3.0"
+log = "0.4.25"
+
+[profile.release]
+debug = false
+strip = "debuginfo"

@@ -1,0 +1,3 @@
+source = "/Volumes/photo/Lightroom Download"
+target = "/Volumes/photo"
+template = "{year}/{date}T{time}-{camera.model}"
