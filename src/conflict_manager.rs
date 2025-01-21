@@ -11,7 +11,12 @@ pub fn rename_no_conflict<S: AsRef<Path>, D: AsRef<Path>>(
     let extension = dest.extension().unwrap().to_string_lossy().to_string();
     let mut conflict_suffix = None;
 
-    while dest.exists() && !are_files_equal(source.as_ref(), dest.as_ref()) {
+    while dest.exists() {
+        if are_files_equal(source.as_ref(), dest.as_ref()) {
+            std::fs::remove_file(source.as_ref())?;
+            return Ok(dest);
+        }
+
         conflict_suffix = match conflict_suffix {
             Some(i) => Some(i + 1),
             None => Some(1),
@@ -25,12 +30,7 @@ pub fn rename_no_conflict<S: AsRef<Path>, D: AsRef<Path>>(
         ));
     }
 
-    if conflict_suffix.is_some() && are_files_equal(source.as_ref(), dest.as_ref()) {
-        std::fs::remove_file(source.as_ref())?;
-    } else {
-        std::fs::rename(source, dest.as_path())?;
-    }
-
+    std::fs::rename(source, dest.as_path())?;
     Ok(dest)
 }
 
