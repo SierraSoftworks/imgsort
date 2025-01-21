@@ -8,7 +8,7 @@ clap = { version = "4.5.9", features = ["derive"] }
 sha2 = "0.10"
 human-errors = "0.1.5"
 rawler = "0.6.0"
-rexif = "0.7.4"
+rexif = "0.7.5"
 serde = { version = "1.0.204", features = ["derive", "alloc"] }
 toml = "0.8.15"
 walkdir = "2.5.0"
