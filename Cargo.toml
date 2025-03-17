@@ -13,7 +13,7 @@ serde = { version = "1.0.219", features = ["derive", "alloc"] }
 toml = "0.8.15"
 walkdir = "2.5.0"
 base16ct = { version = "0.2.0", features = ["alloc"] }
-deunicode = "1.6.0"
+deunicode = "1.6.1"
 colog = "1.3.0"
 log = "0.4.26"
 
