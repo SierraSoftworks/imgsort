@@ -499,9 +499,9 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "human-errors"
-version = "0.1.5"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f83bca1f8f2cc0ec71b29df67fda94f78b32e800f22f2da118a9eaa3a5bfe612"
+checksum = "685626df65b71d0703ee0f2c9a0acac474fab2afe4fac633ea303131875635fe"
 
 [[package]]
 name = "humantime"
