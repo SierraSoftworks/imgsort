@@ -1,6 +1,6 @@
 use std::path::Path;
 
-use crate::{errors, template::TemplateContext};
+use crate::template::TemplateContext;
 
 mod metadata;
 mod rawler;
@@ -10,13 +10,13 @@ pub use metadata::Metadata;
 
 pub trait ImageLoader {
     fn supports(extension: &str) -> bool;
-    fn render<P: AsRef<Path>>(ctx: &TemplateContext, path: P) -> Result<String, errors::Error>;
+    fn render<P: AsRef<Path>>(ctx: &TemplateContext, path: P) -> Result<String, human_errors::Error>;
 }
 
 pub fn render<P: AsRef<Path>>(
     ctx: &TemplateContext,
     path: P,
-) -> Option<Result<String, errors::Error>> {
+) -> Option<Result<String, human_errors::Error>> {
     let extension = path
         .as_ref()
         .extension()

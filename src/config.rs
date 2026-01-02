@@ -1,5 +1,6 @@
 use std::path::{Path, PathBuf};
 
+use human_errors::ResultExt;
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
@@ -30,18 +31,14 @@ impl Default for Config {
 
 impl Config {
     pub fn load<S: AsRef<Path>>(source: S) -> Result<Config, crate::errors::Error> {
-        let content = std::fs::read_to_string(source).map_err(|e| {
-            crate::errors::user_with_internal(
-                "Failed to read your configuration file.",
-                "Make sure that the file exists and you have permission to access it.",
-                e,
-            )
-        })?;
+        let content = std::fs::read_to_string(source).wrap_err_as_user(
+            "Failed to read your configuration file.",
+            &["Make sure that the file exists and you have permission to access it."],
+        )?;
 
-        toml::from_str(&content)
-            .map_err(|e| crate::errors::user_with_internal(
-                "Failed to parse your configuration file.",
-                "Make sure that your configuration file is valid TOML and matches the configuration schema.",
-                e))
+        toml::from_str(&content).wrap_err_as_user(
+            "Failed to parse your configuration file.",
+            &["Make sure that your configuration file is valid TOML and matches the configuration schema."],
+        )
     }
 }

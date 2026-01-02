@@ -41,12 +41,12 @@ impl<'a> Metadata<'a> {
 
     pub fn validate(&self) -> Result<(), crate::errors::Error> {
         if !matches!(self.get("year"), Some(y) if y.as_str().trim().len() == 4) {
-            Err(crate::errors::user(
-                &format!(
+            Err(human_errors::user(
+                format!(
                     "The image '{}' does not have a valid date/time set.",
                     self.path.display()
                 ),
-                "Make sure that the image has a valid date/time set in its metadata.",
+                &["Make sure that the image has a valid date/time set in its metadata."],
             ))
         } else {
             Ok(())

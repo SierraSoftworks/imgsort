@@ -1,6 +1,8 @@
 use std::path::Path;
 
-use crate::{errors, template};
+use human_errors::ResultExt;
+
+use crate::template;
 
 use super::{ImageLoader, Metadata};
 
@@ -16,14 +18,11 @@ impl ImageLoader for RexifImage {
     fn render<P: AsRef<Path>>(
         ctx: &template::TemplateContext,
         path: P,
-    ) -> Result<String, errors::Error> {
-        let img = rexif::parse_file(path.as_ref()).map_err(|e| {
-            errors::system_with_internal(
-                &format!("Could not load image file '{}'.", path.as_ref().display()),
-                "Make sure that you are attempting to load a valid image file format.",
-                e,
-            )
-        })?;
+    ) -> Result<String, human_errors::Error> {
+        let img = rexif::parse_file(path.as_ref()).wrap_err_as_system(
+            format!("Could not load image file '{}'.", path.as_ref().display()),
+            &["Make sure that you are attempting to load a valid image file format."],
+        )?;
 
         let mut metadata = Metadata::new(path.as_ref());
 
