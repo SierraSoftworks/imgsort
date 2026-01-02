@@ -2,6 +2,7 @@ use log::{error, info, warn};
 use std::{collections::HashSet, path::PathBuf};
 
 use clap::Parser;
+use human_errors::ResultExt;
 
 mod config;
 mod conflict_manager;
@@ -26,7 +27,7 @@ fn main() {
     match run(args) {
         Ok(_) => (),
         Err(e) => {
-            error!("{}", e);
+            error!("{}", human_errors::pretty(&e));
             std::process::exit(1);
         }
     }
@@ -76,23 +77,20 @@ fn run(args: Args) -> Result<(), errors::Error> {
                 }
 
                 if !args.audit {
-                    std::fs::create_dir_all(target.parent().unwrap()).map_err(|e| errors::user_with_internal(
-                        &format!("Unable to create directory '{}'.", target.parent().unwrap().display()),
-                        "Make sure that you've got permission to create this directory and try again.",
-                        e))?;
+                    std::fs::create_dir_all(target.parent().unwrap()).wrap_err_as_user(
+                        format!("Unable to create directory '{}'.", target.parent().unwrap().display()),
+                        &["Make sure that you've got permission to create this directory and try again."],
+                    )?;
 
                     let written_path = conflict_manager::rename_no_conflict(entry.path(), &target)
-                        .map_err(|e| {
-                            errors::user_with_internal(
-                            &format!(
+                        .wrap_err_as_user(
+                            format!(
                                 "Failed to move '{}' to '{}'",
                                 entry.path().display(),
                                 target.display()
                             ),
-                            "Make sure that you have permission to move the image and try again.",
-                            e,
-                        )
-                        })?;
+                            &["Make sure that you have permission to move the image and try again."],
+                        )?;
 
                     info!(
                         "mv '{}' '{}'",
