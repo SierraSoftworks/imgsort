@@ -1,5 +1,3 @@
-use crate::errors;
-
 #[derive(Debug, PartialEq)]
 pub enum Segment<'a> {
     Text(&'a str),
@@ -19,7 +17,7 @@ impl<'a> Parser<'a> {
 }
 
 impl<'a> Iterator for Parser<'a> {
-    type Item = Result<Segment<'a>, errors::Error>;
+    type Item = Result<Segment<'a>, human_errors::Error>;
 
     fn next(&mut self) -> Option<Self::Item> {
         let start = self.pos;
@@ -28,9 +26,9 @@ impl<'a> Iterator for Parser<'a> {
             Some('{') => {
                 let end = match self.template[self.pos..].find('}') {
                     Some(end) => end,
-                    None => return Some(Err(errors::user(
-                        &format!("Expected '}}' to close interpolation, but found the end of the template instead (pos: {start})."),
-                        "Ensure that your template interpolations are correctly closed.")))
+                    None => return Some(Err(human_errors::user(
+                        format!("Expected '}}' to close interpolation, but found the end of the template instead (pos: {start})."),
+                        &["Ensure that your template interpolations are correctly closed."])))
                 };
 
                 self.pos += end + 1;
@@ -40,9 +38,9 @@ impl<'a> Iterator for Parser<'a> {
                 let mut parts = interpolation.split('|');
                 let field = match parts.next() {
                     Some(field) => field,
-                    None => return Some(Err(errors::user(
+                    None => return Some(Err(human_errors::user(
                         "Expected an expression within your interpolation braces, but found an empty string instead.",
-                        "Make sure that your template expressions include a '{field}' or '{field|transform}'.")))
+                        &["Make sure that your template expressions include a '{field}' or '{field|transform}'."])))
                 };
                 
                 let transforms: Vec<_> = parts.collect();
