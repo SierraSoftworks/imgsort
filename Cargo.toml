@@ -6,7 +6,7 @@ edition = "2021"
 [dependencies]
 clap = { version = "4.5.13", features = ["derive"] }
 sha2 = "0.10"
-human-errors = { version = "0.2.2", features = ["pretty"] }
+human-errors = { version = "0.2.3", features = ["pretty"] }
 rawler = "0.7.1"
 rexif = "0.7.5"
 serde = { version = "1.0.228", features = ["derive", "alloc"] }

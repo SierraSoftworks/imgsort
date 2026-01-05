@@ -289,7 +289,7 @@ version = "1.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "df62599ba6adc9c6c04a54278c8209125343dc4775f57b9d76c9a4287e58f2bd"
 dependencies = [
- "colored 3.0.0",
+ "colored",
  "env_logger",
  "log",
 ]
@@ -299,16 +299,6 @@ name = "colorchoice"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0b6a852b24ab71dffc585bcb46eaf7959d175cb865a7152e35b348d1b2960422"
-
-[[package]]
-name = "colored"
-version = "2.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "117725a109d387c937a1533ce01b450cbde6b88abceea8473c4d7a85853cda3c"
-dependencies = [
- "lazy_static",
- "windows-sys 0.52.0",
-]
 
 [[package]]
 name = "colored"
@@ -518,12 +508,12 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "human-errors"
-version = "0.2.2"
+version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "47e8c6b083a9331bc18ac6950b890cd0470eff147928b7ea72d2c65a25b51f66"
+checksum = "c5d10d3cf923652ca5b097e0795ddf1053f56bd7a2f4258089c64f45f1b70335"
 dependencies = [
  "cli-boxes",
- "colored 2.2.0",
+ "colored",
  "textwrap",
 ]
 
