@@ -7,7 +7,7 @@ edition = "2021"
 clap = { version = "4.5.13", features = ["derive"] }
 sha2 = "0.10"
 human-errors = { version = "0.2.3", features = ["pretty"] }
-rawler = "0.7.1"
+rawler = "0.7.2"
 rexif = "0.7.5"
 serde = { version = "1.0.228", features = ["derive", "alloc"] }
 toml = "1.0.3"
