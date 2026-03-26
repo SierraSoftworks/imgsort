@@ -42,9 +42,17 @@ fn are_files_equal<P: AsRef<Path>>(a: P, b: P) -> bool {
 }
 
 fn file_hash<P: AsRef<Path>>(path: P) -> std::io::Result<String> {
+    use std::io::Read;
     let mut hasher = sha2::Sha256::new();
     let mut file = std::fs::File::open(path)?;
-    std::io::copy(&mut file, &mut hasher)?;
+    let mut buffer = [0u8; 8192];
+    loop {
+        let n = file.read(&mut buffer)?;
+        if n == 0 {
+            break;
+        }
+        hasher.update(&buffer[..n]);
+    }
     let hash = hasher.finalize();
     Ok(base16ct::lower::encode_string(&hash))
 }
