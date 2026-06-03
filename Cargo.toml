@@ -15,7 +15,7 @@ walkdir = "2.5.0"
 base16ct = { version = "1.0.0", features = ["alloc"] }
 deunicode = "1.6.2"
 colog = "1.4.0"
-log = "0.4.30"
+log = "0.4.31"
 
 [profile.release]
 debug = false
