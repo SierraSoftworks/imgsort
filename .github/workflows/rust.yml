@@ -218,7 +218,7 @@ jobs:
           context: .
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
-          outputs: type=image,name=${{ env.FULL_IMAGE_NAME }},push-by-digest=true,name-canonical=true,push=true,annotation-index.org.opencontainers.image.description=Backup your GitHub repositories and releases automatically
+          outputs: type=image,name=${{ env.FULL_IMAGE_NAME }},push-by-digest=true,name-canonical=true,push=true,annotation-index.org.opencontainers.image.description=Automatically sort and deduplicate your photographs based on their EXIF metadata
 
       - name: Export digest
         run: |
