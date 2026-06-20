@@ -4,6 +4,12 @@
 This tool makes automated image organization workflows simple and straightforward,
 allowing you to manage large image libraries with minimal effort.
 
+## Installation
+Install with [Homebrew](https://brew.sh):
+```sh
+brew install sierrasoftworks/tap/imgsort
+```
+
 ## Features
 - **Automatic Organization**: Automatically sort your images into folders based on their EXIF metadata.
 - **Deduplication**: Automatically detect and remove duplicate images from your library based on the exact binary content of the image file.
