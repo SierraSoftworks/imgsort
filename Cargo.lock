@@ -504,9 +504,9 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "human-errors"
-version = "0.2.3"
+version = "0.2.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c5d10d3cf923652ca5b097e0795ddf1053f56bd7a2f4258089c64f45f1b70335"
+checksum = "ef44dcc0e508d433319e72dcd65819757dde3f756b17f91e875a43d0b65bb7cb"
 dependencies = [
  "cli-boxes",
  "colored",
